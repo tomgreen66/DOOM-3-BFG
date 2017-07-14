@@ -62,8 +62,10 @@ char*		Posix_ConsoleInput();
 double 		MeasureClockTicks();
 
 #ifdef __APPLE__
+#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
 enum clk_id_t { CLOCK_REALTIME, CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW };
 int clock_gettime( clk_id_t clock, struct timespec* tp );
+#endif
 #endif
 
 #endif

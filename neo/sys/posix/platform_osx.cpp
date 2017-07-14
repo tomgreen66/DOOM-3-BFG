@@ -391,6 +391,8 @@ void Sys_ReLaunch()
 }
 
 // OS X doesn't have clock_gettime()
+#ifdef __APPLE__
+#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
 int clock_gettime( clk_id_t clock, struct timespec* tp )
 {
 	switch( clock )
@@ -434,7 +436,8 @@ int clock_gettime( clk_id_t clock, struct timespec* tp )
 	}
 	return 0;
 }
-
+#endif
+#endif
 /*
 ===============
 main
