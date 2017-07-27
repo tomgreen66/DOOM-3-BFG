@@ -408,6 +408,16 @@ saveGameHandle_t idSessionLocal::LoadGameSync( const char* name, saveFileEntryLi
 		{
 			handle = GetSaveGameManager().ExecuteProcessorAndWait( processorLoadFiles );
 		}
+    // Lets remove the file created by auto_ptr which we added to parms.files 
+    // in InitLoadFiles above.
+    for (int i = 0; i < parms.files.Num(); ++i)
+    {
+      if ( &parms.files[i] == gameDetailsFile.get() )
+      {
+				// Will be deleted by auto_ptr so just remove reference to it.
+        parms.files.RemoveIndexFast( i );
+      }
+    }
 		
 		if( handle == 0 )
 		{
