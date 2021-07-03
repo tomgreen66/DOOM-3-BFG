@@ -89,9 +89,9 @@ if(UNIX)
 		SET(SDL2 ON)
 		
 		# RB: disable precompiled headers on Linux with Vulkan because of error: POSIX thread support was disabled in PCH file but is currently enabled
-		if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
-            set(USE_PRECOMPILED_HEADERS OFF)
-        endif()
+		if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
+			set(USE_PRECOMPILED_HEADERS OFF CACHE BOOL "Switch off PCH" FORCE)
+		endif()
 	endif()
 endif()
 
@@ -424,12 +424,9 @@ if(USE_VULKAN)
 		if(X11_XCB_FOUND)
 			add_definitions(-DHAVE_X11_XCB)
 			list(APPEND SUBSYSTEMS [X11])
-			# SRS - Added PKG_ preface to X11_XCB_INCLUDE_DIRS for OSX, not sure about UNIX
-			if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-				include_directories(${PKG_X11_XCB_INCLUDE_DIRS})
-			else()
-				include_directories(${X11_XCB_INCLUDE_DIRS})
-			endif()
+			# TG - if Xquartz then X11_XCB_INCLUDE_DIR works.
+			include_directories(${X11_XCB_INCLUDE_DIR})
+			
 		endif()
 		add_definitions(-DVK_USE_PLATFORM_XLIB_KHR)
 	elseif(WIN32)
