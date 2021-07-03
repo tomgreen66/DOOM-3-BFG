@@ -31,6 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #include <signal.h>
 
+// required for many of the types used here.
+#include "../../idlib/precompiled.h"
+
 #ifdef USE_VULKAN
 	#include <xcb/xcb.h>
 #endif
